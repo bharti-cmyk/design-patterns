@@ -4,18 +4,21 @@ import { PaymentProcessor } from "./payment/PaymentProcessor";
 import { UpiPayment } from "./payment/UpiPayment";
 import { StripePayment } from "./payment/StripePayment";
 import { PaypalPayment } from "./payment/PaypalPayment";
+import { PaymentStrategy } from "./payment/PaymentStrategy";
 
-
-const strategyMap: Record<string, any> = {
+type PaymentKey = "paypal" | "stripe" | "upi";
+const strategyMap: Record<PaymentKey, new () => PaymentStrategy> = {
     "paypal": PaypalPayment,
     "stripe": StripePayment,
     "upi": UpiPayment
 }
 
-const selectedMethod = process.env.PAYMENT_METHOD || "upi"; // This can be dynamically set based on user input or other logic
+const selectedMethod = (process.env.PAYMENT_METHOD || "upi") as PaymentKey;
 const paymentMethod = strategyMap[selectedMethod];
-const processor = new PaymentProcessor(new paymentMethod());
-processor.processPayment(100); // Example amount
 
-processor.setStrategy(new PaypalPayment());
-processor.processPayment(200); // Example amount
+if(!paymentMethod) {
+    throw new Error(`Payment method ${selectedMethod} not supported`);
+}
+
+const processor = new PaymentProcessor(new paymentMethod());
+processor.processPayment(100); 
