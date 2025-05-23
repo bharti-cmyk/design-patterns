@@ -1,0 +1,23 @@
+{
+  "name": "observer",
+  "version": "1.0.0",
+  "description": "1. Set the payment method:\r     ```bash\r     PAYMENT_METHOD=paypal\r 2. Run the app:\r     npm run start",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "tsx src/index.ts",
+    "test": "tsx src/test.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}
